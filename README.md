@@ -16,4 +16,5 @@ This project is a System Programming application developed in C++ as part of our
 ## 📂 Project Navigation
 * 📘 [Detailed Project Wiki](https://github.com/FurkanKayaFbu/Group-Project/wiki)
 * 💬 [Team Discussions](https://github.com/FurkanKayaFbu/Group-Project/discussions)
-* 📊 [Project Board (Tasks)](https://github.com/FurkanKayaFbu/Group-Project/projects/1)
+* 📊 [Project Board (Tasks)](https://github.com/users/FurkanKayaFbu/projects/1)
+* 🎯 [Project Milestones](https://github.com/FurkanKayaFbu/Group-Project/milestones)
