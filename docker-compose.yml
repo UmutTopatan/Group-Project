@@ -1,5 +1,4 @@
-# Week 1 docker-compose placeholder
-version: "3.8"
+# Week 1 docker-compose placeholder version: "3.8"
 
 services:
   db:
@@ -22,9 +21,11 @@ services:
   app:
     build: .
     container_name: sis-app
+    working_dir: /app
+    volumes:
+      - .:/app
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     environment:
       DB_HOST: db
       DB_NAME: studentdb
