@@ -1,4 +1,4 @@
-# Week 1 docker-compose placeholder version: "3.8"
+version: "3.8"
 
 services:
   db:
@@ -8,6 +8,8 @@ services:
       POSTGRES_DB: studentdb
       POSTGRES_USER: studentuser
       POSTGRES_PASSWORD: studentpass
+    ports:
+      - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
     networks:
@@ -21,11 +23,9 @@ services:
   app:
     build: .
     container_name: sis-app
-    working_dir: /app
-    volumes:
-      - .:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       DB_HOST: db
       DB_NAME: studentdb
