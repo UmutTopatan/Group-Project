@@ -3,7 +3,7 @@ version: "3.8"
 services:
   db:
     image: postgres:16
-    container_name: sis_db
+    container_name: sis-postgres
     environment:
       POSTGRES_DB: studentdb
       POSTGRES_USER: studentuser
@@ -21,8 +21,8 @@ services:
       retries: 5
 
   app:
-    build: .
-    container_name: sis_app
+    image: fatmadoraneyfbu/sis-project-app:latest
+    container_name: sis-app
     depends_on:
       db:
         condition: service_healthy
@@ -40,3 +40,4 @@ networks:
 
 volumes:
   db_data:
+
