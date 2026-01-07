@@ -1,46 +1,72 @@
 #include <iostream>
 #include "../include/DatabaseManager.h"
 
+
+//Menu to show options
+void showMenu() {
+    std::cout << "\n--- Student Information System ---" << std::endl;
+    std::cout << "1. Add Student" << std::endl;
+    std::cout << "2. List All Students" << std::endl;
+    std::cout << "3. Update Student" << std::endl;
+    std::cout << "4. Delete Student" << std::endl;
+    std::cout << "0. Exit" << std::endl;
+    std::cout << "Select option: ";
+}
+
 int main() {
-    std::cout << "Student Information System Started" << std::endl;
-
     DatabaseManager db("host=db port=5432 dbname=studentdb user=studentuser password=studentpass");
-
-    // Checking the Connection
-    if (db.connect()) {
-        std::cout << "Connection verified. Checking database structure..." << std::endl;
-        db.createTable();  // Creates the Table
-    } else {
-        std::cerr << "FATAL ERROR: Could not connect to database. System stopping." << std::endl;
+    //Connection Check
+    if (!db.connect()) {
+        std::cerr << "Could not connect to database." << std::endl;
         return 1;
     }
 
-    //Insertion function test
-    std::cout << "Adding test data..." << std::endl;
-    db.insertStudent(2031424, "Umut", "Topatan", "Computer Science", "umut1@example.com");
-    db.insertStudent(2031425, "Furkan", "Kaya", "Computer Science", "furkan@example.com");
-    db.insertStudent(2031426, "Osman", "Selvi", "Computer Science", "Osman@example.com");
+    // Create table if it doesn't exist
+    db.createTable();
 
-    //Read Function test
-    std::cout << "Reading data from database..." << std::endl;
-    db.readStudents();
+    //Taking input from the user
+    int choice;
+    while (true) {
+        showMenu();
+        std::cin >> choice;
 
-    //Update function test (Updated the department and the mail)
-    db.updateStudent(2031424, "Umut", "Topatan", "Computer Engineering", "umut2@example.com");
+        if (choice == 0) break;
 
-    //Reading the data again after Updating the Student information
-    db.readStudents();
+        if (choice == 1) {
+            int id;
+            std::string name, surname, dept, email;
+            std::cout << "Enter ID: "; std::cin >> id;
+            std::cout << "Enter Name: "; std::cin >> name;
+            std::cout << "Enter Surname: "; std::cin >> surname;
+            std::cout << "Enter Dept: "; std::cin >> dept;
+            std::cout << "Enter Email: "; std::cin >> email;
 
-    //Delete function test (Deleting Umut)
-    std::cout << "\n--- Deleting Student 2031424 ---" << std::endl;
-    db.deleteStudent(2031424);
+            db.insertStudent(id, name, surname, dept, email);
 
-    //Reading the data again after Deleting Umut
-    db.readStudents();
+        } else if (choice == 2) {
+            db.readStudents();
 
+        } else if (choice == 3) {
+            int id;
+            std::string name, surname, dept, email;
+            std::cout << "Enter ID to Update: "; std::cin >> id;
+            std::cout << "New Name: "; std::cin >> name;
+            std::cout << "New Surname: "; std::cin >> surname;
+            std::cout << "New Dept: "; std::cin >> dept;
+            std::cout << "New Email: "; std::cin >> email;
 
-    //Disconnecting
+            db.updateStudent(id, name, surname, dept, email);
+
+        } else if (choice == 4) {
+            int id;
+            std::cout << "Enter ID to Delete: "; std::cin >> id;
+            db.deleteStudent(id);
+
+        } else {
+            std::cout << "Invalid option." << std::endl;
+        }
+    }
+
     db.disconnect();
-
     return 0;
 }
